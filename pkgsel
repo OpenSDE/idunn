@@ -1,0 +1,21 @@
+O *
+X fhs
+X sysfiles
+
+X linux-header
+X uclibc
+
+X automake
+X autoconf
+X gcc
+X binutils
+X flex
+X libtool
+X ccache
+
+X busybox
+
+X dropbear
+
+# needed by dropbear
+X zlib
