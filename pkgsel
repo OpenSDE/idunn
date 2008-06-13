@@ -27,5 +27,10 @@ X busybox
 
 X dropbear
 
+X openvpn
+
 # needed by dropbear
 X zlib
+# needed by openvpn
+X openssl
+X lzo
