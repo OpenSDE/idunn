@@ -1,10 +1,20 @@
+# in the beginning there was nothing...
+#
 O *
+
+# Let there be a file structure and system files
+#
 X fhs
 X sysfiles
+X iana-etc
 
+# kernel headers and a libc
+#
 X linux-header
 X uclibc
 
+# and the tools for building the system
+#
 X automake
 X autoconf
 X gcc
