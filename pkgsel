@@ -33,6 +33,9 @@ X hotplug2
 
 X openvpn
 
+X reiserfsprogs
+X e2fsprogs
+
 # needed by dropbear
 X zlib
 # needed by openvpn
