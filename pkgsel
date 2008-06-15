@@ -26,6 +26,10 @@ X ccache
 X busybox
 
 X dropbear
+X rsync
+
+X udev
+X hotplug2
 
 X openvpn
 
