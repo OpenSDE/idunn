@@ -28,13 +28,22 @@ X busybox
 X dropbear
 X rsync
 
+# /dev
+#
 X udev
 X hotplug2
 
 X openvpn
 
+# fs helpers
+#
 X reiserfsprogs
 X e2fsprogs
+
+# bootmanagers
+#
+X syslinux
+X grub
 
 # needed by dropbear
 X zlib
