@@ -1,0 +1,15 @@
+Idunn, the guardian of eternal youth
+====================================
+
+Idunn is an small system aiming to give an early rescue/install
+environment with ssh support, making life easier when one doesn't
+have physical access to machine.
+
+OpenVPN client support is also desired so one can connect to the
+rescue/install envrionment even when it's behind gateways and
+firewalls without needing specific NAT rules.
+
+Idunn is under GPLv2 license, as showed in the COPYING file
+included, and made to be built and maintained using OpenSDE [1].
+
+[1] http://opensde.org
