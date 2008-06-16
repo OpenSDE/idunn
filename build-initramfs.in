@@ -18,7 +18,7 @@ initramfs_install()
 	shift 3
 
 	case "$pkg" in
-	linux-header|ccache|autoconf|automake|binutils|flex|libtool|)
+	linux-header|ccache|autoconf|automake|binutils|flex|libtool)
 		# skip build-time only stuff
 		;;
 	*)
