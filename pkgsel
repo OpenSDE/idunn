@@ -23,8 +23,10 @@ X flex
 X libtool
 X ccache
 
+# main packages
+#
 X busybox
-
+X openvpn
 X dropbear
 X rsync
 
@@ -32,8 +34,6 @@ X rsync
 #
 X udev
 X hotplug2
-
-X openvpn
 
 # fs helpers
 #
