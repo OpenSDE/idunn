@@ -38,11 +38,19 @@ title "Starting supervisor"
 check start-stop-daemon -S -b -x /usr/bin/runsvdir -- /var/service/
 status
 
+# assuming the network module is built-in, start it earlier
+for x in $(unet pending); do
+	title "Starting network (interface:$x)"
+	check unet $x up
+	status
+done
+
 # wait for udev
 while [ ! -d /dev/.udev/ ]; do
 	sleep 1;
 done
 
+# load/blacklist modules
 if [ -x /sbin/modprobe -a -n "$modules" ]; then
 	title "Preloading requested kernel modules"
 	for x in $(echo "$modules" | tr ':' ' '); do
@@ -55,15 +63,14 @@ if [ -x /sbin/modprobe -a -n "$modules" ]; then
 	status
 fi
 
-title "Starting early networking (Pass 1)"
-check unet up
-status
-
 title "Triggering coldplug"
 check udevtrigger
 check udevsettle
 status
 
-title "Starting early networking (Pass 2)"
-check unet up
-status
+# and for those which appeared after udevtrigger
+for x in $(unet pending); do
+	title "Starting network (interface:$x)"
+	check unet $x up
+	status
+done
