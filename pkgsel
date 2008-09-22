@@ -7,7 +7,6 @@ X rsync
 # /dev
 #
 X udev
-X hotplug2
 
 # fs helpers
 #
