@@ -8,6 +8,8 @@ X rsync
 #
 X udev
 
+X unet
+
 # fs helpers
 #
 X reiserfsprogs
