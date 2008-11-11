@@ -25,3 +25,18 @@ X zlib
 # needed by openvpn
 X openssl
 X lzo
+
+# HARDCORE CLEANUP
+#
+O iptables
+O gzip
+O bzip2
+O nullmailer
+O time
+O find
+O patch
+O man
+O stone
+O shadow
+O net-tools
+O m4
