@@ -33,7 +33,8 @@ else
 	else
 		# massive additions
 		module_list_available | sed -n \
-			-e 's,/\(block\|fs\|net\)/,\0,p'
+			-e 's,/\(ide\|ieee1394\|cdrom\|scsi\|ata\|md\|block\|fs\|hid\|net\)/,\0,p' |
+			grep -v '/\(netfilter\|ipvs\|wireless\|bluetooth\|nls\)/'
 	fi | while read x; do
 		module_install "$x"
 	done
