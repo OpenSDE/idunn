@@ -35,6 +35,9 @@ else
 		module_list_available | sed -n \
 			-e 's,/\(ide\|ieee1394\|cdrom\|scsi\|ata\|md\|block\|fs\|hid\|net\)/,\0,p' |
 			grep -v '/\(netfilter\|ipvs\|wireless\|bluetooth\|nls\)/'
+
+		# HCI
+		echo {e,o,u}hci-hcd | tr ' ' '\n'
 	fi | while read x; do
 		module_install "$x"
 	done
