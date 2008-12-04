@@ -22,7 +22,6 @@ banner "I am Idunn, take an apple and live forever."
 
 title "Mounting special filesystems"
 check mount -n -t proc proc /proc
-check mount -n -t usbfs none /proc/bus/usb
 check mount -n -t sysfs sysfs /sys
 check mount -n -t tmpfs tmp /tmp
 status
