@@ -15,6 +15,6 @@
 
 export PATH
 
-/etc/rc.d/rc.sysinit
+/etc/rc.d/rc.sysinit 2>&1 | tee -a /var/log/init.log
 
 exec /bin/sh
