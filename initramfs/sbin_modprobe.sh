@@ -13,10 +13,8 @@
 # GNU General Public License can be found in the file COPYING.
 # --- SDE-COPYRIGHT-NOTE-END ---
 
-exec >> /var/log/modprobe.log
-exec 2>&1
-
 export PATH
+LOG="/var/log/modprobe.log"
 
-echo "[$$] modprobe $*"
-exec /bin/busybox modprobe "$@"
+echo "[$$] modprobe $*" >> "$LOG"
+/bin/busybox modprobe "$@" 2>&1 | tee -a "$LOG" >&2
