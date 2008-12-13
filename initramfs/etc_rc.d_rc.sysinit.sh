@@ -18,7 +18,10 @@
 banner "I am Idunn, take an apple and live forever."
 
 # keep the console clean
-[ -x /bin/dmesg ] && /bin/dmesg -n 3
+if [ -x /bin/dmesg ]; then
+	dmesg -n 3
+	dmesg > /var/log/boot.log
+fi
 
 title "Mounting special filesystems"
 check mount -n -t proc proc /proc
