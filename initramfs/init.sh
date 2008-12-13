@@ -15,18 +15,39 @@
 
 export PATH
 
+LOG=/var/log/init.log
+
 # catch some signals
 #
-signal_handler() {
-	echo "=== trap $* ===" >> /var/log/init-signals.log
+shutoff_handler() {
+	local x=
+
+	# just once!
+	ln -s / /var/run/init.lock || return
+
+	# stop services
+	/etc/rc.d/rc.shutdown 2>&1 | tee -a $LOG
+
+	# TODO: killall!
+
+	# unmount stuff
+	grep '^/' /proc/mounts | cut -d' ' -f2 | tac | while read x; do
+		umount "$x"
+	done
+
+	case "$1" in
+	USR1)	halt -f ;;
+	USR2)	poweroff -f ;;
+	*)	reboot -f ;;
+	esac
 }
 
 for x in USR1 USR2 TERM INT; do
-	trap "signal_handler $x" $x
+	trap "shutoff_handler $x" $x
 done
 
 # start the world
-/etc/rc.d/rc.sysinit 2>&1 | tee -a /var/log/init.log
+/etc/rc.d/rc.sysinit 2>&1 | tee -a $LOG
 
 # attach a console
 ln -s /etc/console /var/service/
