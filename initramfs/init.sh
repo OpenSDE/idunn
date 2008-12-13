@@ -25,7 +25,11 @@ for x in USR1 USR2 TERM INT; do
 	trap "signal_handler $x" $x
 done
 
+# start the world
 /etc/rc.d/rc.sysinit 2>&1 | tee -a /var/log/init.log
+
+# attach a console
+ln -s /etc/console /var/service/
 
 while true; do
 	sleep 1;
