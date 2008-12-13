@@ -15,6 +15,18 @@
 
 export PATH
 
+# catch some signals
+#
+signal_handler() {
+	echo "=== trap $* ===" >> /var/log/init-signals.log
+}
+
+for x in USR1 USR2 TERM INT; do
+	trap "signal_handler $x" $x
+done
+
 /etc/rc.d/rc.sysinit 2>&1 | tee -a /var/log/init.log
 
-exec /bin/sh
+while true; do
+	sleep 1;
+done
