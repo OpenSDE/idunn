@@ -37,8 +37,10 @@ else
 			grep -v '/\(netfilter\|ipvs\|wireless\|bluetooth\|nls\)/'
 
 		# HCI
-		echo {e,o,u}hci-hcd | tr ' ' '\n'
-	fi | while read x; do
+		echo {e,o,u}hci-hcd
+
+		echo nls_iso8859-1 nls_utf8
+	fi | tr ' ' '\n' | while read x; do
 		module_install "$x"
 	done
 
