@@ -13,10 +13,12 @@
 # GNU General Public License can be found in the file COPYING.
 # --- SDE-COPYRIGHT-NOTE-END ---
 
-TTY=/dev/console
+TTY=/dev/vc/0
 
 exec > $TTY
 exec < $TTY
 exec 2> $TTY
+
+cd
 
 exec /bin/sh
