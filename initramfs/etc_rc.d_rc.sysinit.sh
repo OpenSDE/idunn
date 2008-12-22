@@ -100,3 +100,27 @@ for x in $(unet pending); do
 	check unet $x up
 	status
 done
+
+if [ "$use_mdadm" = "yes" ]; then
+	title "Detecting RAID volumes"
+	check mdadm -Esv > /etc/mdadm.conf
+	status
+fi
+
+if [ -s /etc/mdadm.conf ]; then
+	title "Starting RAID volumes"
+	check mdadm -As
+	status
+fi
+
+if [ "$use_lvm" = "yes" ]; then
+	title "Detecting LVM volumes"
+	check vgscan
+	status
+fi
+
+if [ -n "$(ls -1 /etc/lvm/archive/*.vg 2> /dev/null)" ]; then
+	title "Starting LVM volumes"
+	check vgchange -ay
+	status
+fi
