@@ -110,6 +110,7 @@ fi
 if [ -s /etc/mdadm.conf ]; then
 	title "Starting RAID volumes"
 	check mdadm -As
+	sleep 1
 	status
 fi
 
@@ -121,6 +122,7 @@ fi
 
 if [ -n "$(ls -1 /etc/lvm/archive/*.vg 2> /dev/null)" ]; then
 	title "Starting LVM volumes"
+	modprobe dm-mod
 	check vgchange -ay
 	status
 fi
