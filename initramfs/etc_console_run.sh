@@ -21,4 +21,4 @@ exec 2> $TTY
 
 cd
 
-exec /bin/sh
+exec /bin/sh -i
