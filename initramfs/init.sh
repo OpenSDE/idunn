@@ -26,14 +26,20 @@ shutoff_handler() {
 	ln -s / /var/run/init.lock || return
 
 	# stop services
-	/etc/rc.d/rc.shutdown 2>&1 | tee -a $LOG
-
-	# TODO: killall!
+	/etc/rc.d/rc.shutdown
 
 	# unmount stuff
 	grep '^/' /proc/mounts | cut -d' ' -f2 | tac | while read x; do
-		umount "$x"
+		umount -r "$x"
 	done
+
+	# kill anyone else
+	killall5 -s TERM
+	sleep 2
+	killall5 -s KILL
+
+	# an umount the rest
+	umount -ar
 
 	case "$1" in
 	USR1)	halt -f ;;
