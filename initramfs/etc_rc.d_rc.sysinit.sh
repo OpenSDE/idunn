@@ -65,6 +65,30 @@ if [ -x /sbin/modprobe -a -n "$modules" ]; then
 	status
 fi
 
+force_shell=
+use_lvm=
+use_mdadm=
+
+if [ -n "$idunn" ]; then
+	for x in $(echo "$idunn" | tr ':' ' '); do
+		case "$x" in
+		*=*)	y="${x#*=}"
+			x="${x%%=*}"
+			;;
+		no*)	x="${x#no}"
+			y="no"
+			;;
+		*)	y="yes"
+			;;
+		esac
+
+		case "$x" in
+		shell)		force_shell=$y ;;
+		lvm|mdadm)	eval use_${x}=$y ;;
+		esac
+	done
+fi
+
 title "Triggering coldplug"
 check udevtrigger
 check udevsettle
