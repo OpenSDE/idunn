@@ -52,12 +52,6 @@ for x in USR1 USR2 TERM INT; do
 	trap "shutoff_handler $x" $x
 done
 
-cat > /etc/conf/idunn <<EOT
-root="$root"
-init="${init:-/sbin/init}"
-initopt="$*"
-EOT
-
 # start the world
 /etc/rc.d/rc.sysinit 2>&1 | tee -a $LOG
 

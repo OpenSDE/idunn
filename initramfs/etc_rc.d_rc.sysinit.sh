@@ -29,6 +29,27 @@ check mount -n -t sysfs sysfs /sys
 check mount -n -t tmpfs tmp /tmp
 status
 
+# Parse command line
+init=
+root=
+root_mode=
+
+for x in $(cat /proc/cmdline | tr -d ";\"'"); do
+	case "$x" in
+	ro|rw)	root_mode=$x ;;
+	root=*|init=*)
+		eval "$x" ;;
+	esac
+done
+
+cat > /etc/conf/idunn <<EOT
+rootfs="/rootfs"
+root="$root"
+root_mode="${root_mode:-rw}"
+init="${init:-/sbin/init}"
+initopt="$*"
+EOT
+
 title "Preparing /dev"
 check mount -n -t tmpfs udev /dev
 check mkdir /dev/pts
