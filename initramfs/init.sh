@@ -23,20 +23,24 @@ shutoff_handler() {
 	local x=
 
 	# just once!
-	ln -s / /var/run/init.lock || return
+	ln -s / /var/run/init.lock 2> /dev/null || return
 
 	# stop services
 	/etc/rc.d/rc.shutdown
+
+	# terminate the rest
+	sleep 1
+	killall5 -s TERM
+	sleep 2
 
 	# unmount stuff
 	grep '^/' /proc/mounts | cut -d' ' -f2 | tac | while read x; do
 		umount -r "$x"
 	done
 
-	# kill anyone else
-	killall5 -s TERM
-	sleep 2
+	# kill'em all
 	killall5 -s KILL
+	sleep 1
 
 	# an umount the rest
 	umount -ar
@@ -51,6 +55,7 @@ shutoff_handler() {
 for x in USR1 USR2 TERM INT; do
 	trap "shutoff_handler $x" $x
 done
+unset x
 
 # start the world
 /etc/rc.d/rc.sysinit 2>&1 | tee -a $LOG
