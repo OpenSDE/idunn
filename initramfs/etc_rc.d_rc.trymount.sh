@@ -13,14 +13,14 @@
 # GNU General Public License can be found in the file COPYING.
 # --- SDE-COPYRIGHT-NOTE-END ---
 
-. /etc/rc.d/functions.in
 . /etc/conf/idunn
 
 if grep -q "^[^ ]* $rootfs " /proc/mounts; then
-	title "Remounting $rootfs as $root_mode."
-	check mount -o remount,$root_mode $rootfs
-	status
+	# alredy mounted
+	error=0
 elif [ -n "$root" ]; then
+	. /etc/rc.d/functions.in
+
 	title "Mouting $root at $rootfs."
 	check /lib/udev/vol_id "$root" > /tmp/vol_id.$$
 	. /tmp/vol_id.$$
@@ -37,5 +37,4 @@ elif [ -n "$root" ]; then
 else
 	error=1
 fi
-
 exit ${error:-0}
