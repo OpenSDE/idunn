@@ -70,7 +70,37 @@ while true; do
 	sleep 1;
 	if [ -e /var/run/.idunn-resume ]; then
 		# switch_root requested
+		. /etc/conf/idunn
+
 		echo "switch_root in progress, you will be disconnected now." | wall
-		rm /var/run/.idunn-resume
+
+		# stop services
+		/etc/rc.d/rc.shutdown 2>&1 | tee -a $LOG
+
+		# terminate the rest
+		sleep 1
+		killall5 -s TERM
+		sleep 2
+		killall5 -s KILL
+
+		/etc/rc.d/rc.switchroot stop 2>&1 | tee -a $LOG
+
+		# and proceed
+		exec switch_root -c /dev/console "$rootfs" "$init" $initopt 2>&1 >> $LOG
+		errno=$?
+
+		# outch!
+		if [ ! -s $LOG ]; then
+			# the world is gone, time to panic
+			exit $errno
+		else
+			cat <<-EOT >> $LOG
+			switch_root failed returning $errno
+
+			EOT
+			rm -f /var/run/.idunn-resume
+
+			/etc/rc.d/rc.switchroot revive 2>&1 | tee -a $LOG
+		fi
 	fi
 done
