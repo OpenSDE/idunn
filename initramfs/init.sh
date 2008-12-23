@@ -68,4 +68,9 @@ ln -s /etc/console /var/service/
 
 while true; do
 	sleep 1;
+	if [ -e /var/run/.idunn-resume ]; then
+		# switch_root requested
+		echo "switch_root in progress, you will be disconnected now." | wall
+		rm /var/run/.idunn-resume
+	fi
 done
