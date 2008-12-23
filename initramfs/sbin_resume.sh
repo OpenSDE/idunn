@@ -17,7 +17,7 @@
 LOCK=/var/run/init.lock
 ln -s / $LOCK 2> /dev/null || return
 
-if /etc/rc.d/rc.trymount; then
+if /etc/rc.d/rc.trymount -v; then
 	# rootfs mounted
 	. /etc/rc.d/functions.in
 	. /etc/conf/idunn
