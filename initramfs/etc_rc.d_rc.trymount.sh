@@ -15,6 +15,12 @@
 
 . /etc/conf/idunn
 
+if [ "x$1" = "x-v" ]; then
+	verbose=yes
+else
+	verbose=
+fi
+
 if grep -q "^[^ ]* $rootfs " /proc/mounts; then
 	# alredy mounted
 	error=0
@@ -35,6 +41,11 @@ elif [ -n "$root" ]; then
 
 	status	
 else
+	[ -z "$verbose" ] ||
+		cat <<-EOT >&2
+		sorry, root device not specified.
+		mount it at $rootfs and try again
+		EOT
 	error=1
 fi
 exit ${error:-0}
