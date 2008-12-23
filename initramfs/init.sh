@@ -58,7 +58,10 @@ done
 unset x
 
 # start the world
-/etc/rc.d/rc.sysinit 2>&1 | tee -a $LOG
+(
+/etc/rc.d/rc.sysinit
+/etc/rc.d/rc.trymount
+) 2>&1 | tee -a $LOG
 
 # attach a console
 ln -s /etc/console /var/service/
