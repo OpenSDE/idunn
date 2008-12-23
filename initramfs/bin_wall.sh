@@ -18,7 +18,7 @@ tmpfile=/tmp/wall.$$
 trap "rm -f $tmpfile" INT
 
 cat <<EOT > $tmpfile
-Broadcast Message from $USER@$(hostname)
+Broadcast Message from ${USER:-root}@$(hostname)
 	($(tty)) at $(date) ...
 EOT
 cat >> $tmpfile
