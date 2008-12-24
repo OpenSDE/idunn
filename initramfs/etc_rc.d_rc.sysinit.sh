@@ -61,13 +61,6 @@ title "Starting supervisor"
 check start-stop-daemon -S -b -x /usr/bin/runsvdir -- /var/service/
 status
 
-# assuming the network module is built-in, start it earlier
-for x in $(unet pending); do
-	title "Starting network (interface:$x)"
-	check unet $x up
-	status
-done
-
 # wait for udev
 while [ ! -d /dev/.udev/ ]; do
 	sleep 1;
@@ -109,6 +102,13 @@ if [ -n "$idunn" ]; then
 		esac
 	done
 fi
+
+# assuming the network module is built-in or preloaded, start it earlier
+for x in $(unet pending); do
+	title "Starting network (interface:$x)"
+	check unet $x up
+	status
+done
 
 title "Triggering coldplug"
 check udevtrigger
