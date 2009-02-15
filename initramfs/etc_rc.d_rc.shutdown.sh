@@ -13,6 +13,13 @@
 # GNU General Public License can be found in the file COPYING.
 # --- SDE-COPYRIGHT-NOTE-END ---
 
+if [ "x$1" = "x-u" ]; then
+	do_umount=yes
+	shift
+else
+	do_umount=
+fi
+
 . /etc/rc.d/functions.in
 
 title "Stopping services"
@@ -23,3 +30,21 @@ status
 title "Stopping supervisor"
 check start-stop-daemon -K -s HUP -x /usr/bin/runsvdir
 status
+
+for x in TERM:3 KILL:1; do
+	y="${x%:*}" z="${x#*:}"
+	title "Sending $y signal to all lingering processes (${z}s)"
+	check killall5 -s $y
+	sleep $z
+	status
+done
+
+if [ -n "$do_umount" ]; then
+	grep '^/' /proc/mounts | cut -d' ' -f2 | tac | while read x; do
+		title "Unmounting $x"
+		check umount -r "$x"
+		status
+	done
+
+	umount -ar
+fi
