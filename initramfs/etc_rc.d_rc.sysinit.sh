@@ -45,7 +45,7 @@ done
 cat > /etc/conf/idunn <<EOT
 rootfs="/rootfs"
 root="$root"
-root_mode="${root_mode:-rw}"
+root_mode="${root_mode:-ro}"
 init="${init:-/sbin/init}"
 initopt="$*"
 EOT
