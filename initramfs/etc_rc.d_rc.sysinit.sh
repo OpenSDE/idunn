@@ -42,9 +42,25 @@ for x in $(cat /proc/cmdline | tr -d ";\"'"); do
 	esac
 done
 
+root_method=device
+case "$root" in
+nfs:*)	root="${root#nfs:}"
+	root_method=nfs
+	;;
+UUID=*|LABEL=*)
+	root_method=find
+	;;
+/dev/*)
+	;;
+*)
+	root="/dev/$root"
+	;;
+esac
+
 cat > /etc/conf/idunn <<EOT
 rootfs="/rootfs"
 root="$root"
+root_method="$root_method"
 root_mode="${root_mode:-ro}"
 init="${init:-/sbin/init}"
 initopt="$*"
