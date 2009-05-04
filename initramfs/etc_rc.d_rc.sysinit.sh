@@ -32,12 +32,13 @@ status
 # Parse command line
 init=
 root=
+rootdelay=
 root_mode=
 
 for x in $(cat /proc/cmdline | tr -d ";\"'"); do
 	case "$x" in
 	ro|rw)	root_mode=$x ;;
-	root=*|init=*)
+	root=*|init=*|rootdelay=*)
 		eval "$x" ;;
 	esac
 done
@@ -60,6 +61,7 @@ esac
 cat > /etc/conf/idunn <<EOT
 rootfs="/rootfs"
 root="$root"
+rootdelay="${rootdelay:-0}"
 root_method="$root_method"
 root_mode="${root_mode:-ro}"
 init="${init:-/sbin/init}"

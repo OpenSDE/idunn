@@ -15,11 +15,20 @@
 
 . /etc/conf/idunn
 
-if [ "x$1" = "x-v" ]; then
-	verbose=yes
-else
-	verbose=
-fi
+verbose=
+delayed=
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-v)	verbose=yes ;;
+	delayed)
+		delayed=yes ;;
+	*)
+		echo "trymount: $1: option not understood." 1>&2
+		;;
+	esac
+	shift
+done
 
 if grep -q "^[^ ]* $rootfs " /proc/mounts; then
 	# alredy mounted
@@ -30,6 +39,12 @@ elif [ -n "$root" ]; then
 	root_type=
 	root_tag=
 	root_options="$root_mode"
+
+	if [ "$delayed" = yes -a "$rootdelay" != "0" ]; then
+		title "Waiting ${rootdelay}s before trying to mount $rootfs."
+		check sleep "$rootdelay"
+		status
+	fi
 
 	case "$root_method" in
 	nfs)

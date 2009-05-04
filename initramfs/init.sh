@@ -43,7 +43,7 @@ unset x
 # start the world
 (
 /etc/rc.d/rc.sysinit
-/etc/rc.d/rc.trymount
+/etc/rc.d/rc.trymount delayed
 ) 2>&1 | tee -a $LOG
 
 # attach a console
