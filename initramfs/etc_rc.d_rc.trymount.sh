@@ -54,16 +54,18 @@ elif [ -n "$root" ]; then
 	find)	# UUID= or LABEL=
 		root_tag="$root"
 		root=$(blkid -l -o device -t "$root_tag")
-		[ -z "$root" ] || root_type=$(blkid -l -o value -t TYPE "$root")
+		[ -z "$root" ] || root_type=$(blkid -o value -s TYPE "$root")
 		[ -z "$root_type" ] || root_tag="$root_tag, $root_type"
 		;;
 	device)
-		root_type=$(blkid -l -o value -t TYPE "$root")
+		root_type=$(blkid -o value -s TYPE "$root")
 		;;
 	esac
 
 	if [ -z "$root" ]; then
 		title "Mounting $root_tag at $rootfs."
+	elif [ -z "$root_type" ]; then
+		title "Mounting $root (undetermined) at $rootfs."
 	elif [ -z "$root_tag" ]; then
 		title "Mounting $root ($root_type) at $rootfs."
 	else
