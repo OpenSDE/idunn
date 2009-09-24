@@ -54,7 +54,7 @@ UUID=*|LABEL=*)
 /dev/*)
 	;;
 *)
-	root="/dev/$root"
+	[ -z "$root" ] || root="/dev/$root"
 	;;
 esac
 
