@@ -16,32 +16,12 @@
 . /etc/rc.d/functions.in
 . /etc/conf/idunn
 
-case "$1" in
-stop)
-	title "Stoping network interfaces"
-	check unet down
-	status
+title "Stoping network interfaces"
+check unet down
+status
 	
-	title "Moving special filesystems"
-	for x in dev sys proc; do
-		check mount -o move "/$x" "$rootfs/$x"
-	done
-	status
-
-	;;
-revive)
-	title "Moving special filesystems back"
-	for x in dev sys proc; do
-		check mount -o move "$rootfs/$x" "/$x"
-	done
-	status
-
-	title "Restarting network interfaces"
-	check unet up
-	status
-
-	title "Restarting Supervisor"
-	check start-stop-daemon -S -b -x /usr/bin/runsvdir -- /var/service/
-	status
-	;;
-esac
+title "Moving special filesystems"
+for x in dev sys proc; do
+	check mount -o move "/$x" "$rootfs/$x"
+done
+status

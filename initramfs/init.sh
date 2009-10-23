@@ -63,27 +63,12 @@ while true; do
 		echo "switch_root in progress, you will be disconnected now." | wall
 
 		# stop services
-		/etc/rc.d/rc.shutdown 2>&1 | tee -a $LOG
+		/etc/rc.d/rc.shutdown
 
 		# terminate the rest
-		/etc/rc.d/rc.switchroot stop 2>&1 | tee -a $LOG
+		/etc/rc.d/rc.switchroot stop
 
 		# and proceed
-		exec switch_root -c /dev/console "$rootfs" "$init" $initopt 2>&1 >> $LOG
-		errno=$?
-
-		# outch! what are we doing here?
-		if [ ! -s $LOG ]; then
-			# the world is gone, time to panic
-			exit $errno
-		else
-			cat <<-EOT >> $LOG
-			switch_root failed returning $errno
-
-			EOT
-			rm -f /var/run/.idunn-resume
-
-			/etc/rc.d/rc.switchroot revive 2>&1 | tee -a $LOG
-		fi
+		exec switch_root -c /dev/console "$rootfs" "$init" $initopt
 	fi
 done
