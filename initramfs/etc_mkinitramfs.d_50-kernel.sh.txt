@@ -41,7 +41,7 @@ else
 
 		echo usb-storage
 
-		echo nls_iso8859-1 nls_utf8
+		echo nls_iso8859-1 nls_utf8 nls_cp437
 	fi | tr ' ' '\n' | while read x; do
 		module_install "$x"
 	done
