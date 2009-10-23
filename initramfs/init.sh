@@ -44,10 +44,15 @@ unset x
 (
 /etc/rc.d/rc.sysinit
 /etc/rc.d/rc.trymount delayed
+if [ ! -e /var/run/.idunn-stop ]; then
+	/etc/rc.d/rc.tryresume
+fi
 ) 2>&1 | tee -a $LOG
 
-# attach a console
-ln -s /etc/console /var/service/
+if [ ! -e /var/run/.idunn-resume ]; then
+	# attach a console
+	ln -s /etc/console /var/service/
+fi
 
 while true; do
 	sleep 1;
