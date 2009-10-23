@@ -115,8 +115,8 @@ if [ -n "$idunn" ]; then
 		esac
 
 		case "$x" in
-		shell)		force_shell=$y ;;
-		lvm|mdadm)	eval use_${x}=$y ;;
+		shell|stop)	eval "force_shell=$y" ;;
+		lvm|mdadm)	eval "use_${x}=$y" ;;
 		esac
 	done
 fi
@@ -146,7 +146,7 @@ if [ "$use_mdadm" = "yes" ]; then
 	status
 fi
 
-if [ -s /etc/mdadm.conf ]; then
+if [ -s /etc/mdadm.conf -o -s /etc/mdadm/mdadm.conf ]; then
 	title "Starting RAID volumes"
 	check mdadm -As
 	sleep 1
@@ -164,4 +164,8 @@ if [ -n "$(ls -1 /etc/lvm/archive/*.vg 2> /dev/null)" ]; then
 	modprobe dm-mod
 	check vgchange -ay
 	status
+fi
+
+if [ "$force_shell" = 'yes' ]; then
+	touch /var/run/.idunn-stop
 fi
