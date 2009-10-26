@@ -43,7 +43,7 @@ unset x
 # start the world
 (
 /etc/rc.d/rc.sysinit
-/etc/rc.d/rc.trymount delayed
+/etc/rc.d/rc.trymount
 if [ ! -e /var/run/.idunn-stop ]; then
 	/etc/rc.d/rc.tryresume
 fi

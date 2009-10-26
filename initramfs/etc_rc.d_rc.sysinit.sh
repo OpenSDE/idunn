@@ -61,7 +61,6 @@ esac
 cat > /etc/conf/idunn <<EOT
 rootfs="/rootfs"
 root="$root"
-rootdelay="${rootdelay:-0}"
 root_method="$root_method"
 root_mode="${root_mode:-ro}"
 init="${init:-/sbin/init}"
@@ -139,6 +138,12 @@ for x in $(unet pending); do
 	check unet $x up
 	status
 done
+
+if [ "${rootdelay:-0}" != "0" ]; then
+	title "Waiting ${rootdelay}s for the device(s) to settle."
+	check sleep "$rootdelay"
+	status
+fi
 
 if [ "$use_mdadm" = "yes" ]; then
 	title "Detecting RAID volumes"
