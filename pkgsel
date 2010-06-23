@@ -25,6 +25,8 @@ X zlib
 # needed by openvpn
 X openssl
 X lzo
+# needed by 0-gcc
+X mpfr
 
 # HARDCORE CLEANUP
 #
