@@ -14,6 +14,8 @@ X unet
 #
 X reiserfsprogs
 X e2fsprogs
+# more and more disks are bigger than 2T
+X gptfdisk
 
 # bootmanagers
 #
