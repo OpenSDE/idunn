@@ -20,7 +20,6 @@ X gptfdisk
 # bootmanagers
 #
 X syslinux
-X grub
 
 # needed by dropbear
 X zlib
